@@ -23,6 +23,7 @@ namespace BlogTutorial.Controllers
 
             return View();
         }
+
         //Insert post data in Post Table database
         [HttpPost]
         public IActionResult AddPost(PostViewModel myPost)
@@ -111,10 +112,29 @@ namespace BlogTutorial.Controllers
                 db.TblProfaie.Add(profile);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
-            }
-             
+            }             
+            return View();           
+        }
+
+        public IActionResult Login()
+        { 
             return View();
-           
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginViewModel loginViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = db.TblProfaie.Where(opt => opt.Username.Equals(loginViewModel.Username) && opt.Password.Equals(loginViewModel.Password)).FirstOrDefault();
+                if (result!=null)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                ViewData["LoginFlag"] = "Invalid Username or Password!";
+                return View();
+            }
+            return View();
         }
     }
 }
