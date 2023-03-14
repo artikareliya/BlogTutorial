@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" asp-action="Index" asp-controller="Admin">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -58,14 +58,14 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link" href="blank.html">
+                <a class="nav-link" asp-action="AddPost" asp-controller="Admin">
                     <i class="fas fa-pencil-alt"></i>
                     <span>New Post</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="blank.html">
+                <a class="nav-link" asp-action="EditPost" asp-controller="Admin">
                     <i class="fas fa-list"></i>
                     <span>All Posts</span>
                 </a>
@@ -171,11 +171,11 @@
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                @*<div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Blank Page</h1>
-                    </div>
+                        <h1 class="h3 mb-0 text-gray-800"></h1>
+                    </div>*@
                     <div>
                     @RenderBody()
                     </div>

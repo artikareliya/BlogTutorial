@@ -1,9 +1,9 @@
-﻿@using BlogTutorial.Models;
-@model Post
+﻿@using BlogTutorial.ViewModel;
+@model PostViewModel
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <form method="post" asp-action="addPost" asp-controller="Admin">
+            <form method="post" asp-action="addPost" asp-controller="Admin" enctype="multipart/form-data">
 
 
                 <div class="row justify-content-center">
@@ -25,7 +25,7 @@
                     <div class="col-md-6">
                        <div class="form-group">
                             <label class="col-form-label" asp-for=Date></label>
-                            <input class="form-control" asp-for=Date />
+                            <input class="form-control" asp-for=Date value="@DateTime.Now.ToString("MMM dd, yyyy")" readonly/>
                         </div>
                      </div>
                     <div class="col-md-6">

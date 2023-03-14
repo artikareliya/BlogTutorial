@@ -1,5 +1,6 @@
 ﻿using BlogTutorial.Data;
 using BlogTutorial.Models;
+using BlogTutorial.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogTutorial.Controllers
@@ -7,9 +8,11 @@ namespace BlogTutorial.Controllers
     public class AdminController : Controller
     {
         AppDbContext db;
-        public AdminController(AppDbContext _db)
+        IWebHostEnvironment env;
+        public AdminController(AppDbContext _db, IWebHostEnvironment environment)
         {
             db = _db;
+            env = environment; 
         }
         public IActionResult Index()
         {
@@ -20,11 +23,29 @@ namespace BlogTutorial.Controllers
 
             return View();
         }
+        //Insert post data in Post Table database
         [HttpPost]
-        public IActionResult AddPost(Post myPost)
+        public IActionResult AddPost(PostViewModel myPost)
         {
-            db.tblPost.Add(myPost);
-            db.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                string ImageName = myPost.Image.FileName.ToString();
+                var FolderPath =Path.Combine(env.WebRootPath, "images");   
+                var CompletePicPath = Path.Combine(FolderPath, ImageName);
+                myPost.Image.CopyTo(new FileStream(CompletePicPath, FileMode.Create));
+
+                Post post = new Post();
+                post.Title = myPost.Title;
+                post.SubTital=myPost.SubTital;
+                post.Date=myPost.Date;
+                post.Content = myPost.Content;
+                post.Slug = myPost.Slug;
+                post.Image = ImageName;
+
+                db.tblPost.Add(post);
+                db.SaveChanges();
+                return RedirectToAction("Index","Home");
+            }            
             return View();
         }
 
@@ -61,6 +82,39 @@ namespace BlogTutorial.Controllers
             db.tblPost.Update(post);
             db.SaveChanges();
             return RedirectToAction("EditPost", "Admin");
+        }
+
+        public IActionResult CreateProfile()
+        {
+            return View();
+        }
+
+        //Create Profile, Insert data in profile table database
+        [HttpPost]
+        public IActionResult CreateProfile(ProfileViewModel profileVm)
+        {
+            if (ModelState.IsValid)
+            {
+                string ImageName = profileVm.Image.FileName.ToString();
+                var FolderPath = Path.Combine(env.WebRootPath, "images");
+                var CompletePicPath = Path.Combine(FolderPath, ImageName);
+                profileVm.Image.CopyTo(new FileStream(CompletePicPath, FileMode.Create));
+
+                Profile profile = new Profile();
+                profile.Fname = profileVm.Fname;
+                profile.Lname= profileVm.Lname;
+                profile.Bio= profileVm.Bio;
+                profile.Image = ImageName;
+                profile.Username = profileVm.Username;
+                profile.Password = profileVm.Password;
+
+                db.TblProfaie.Add(profile);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+             
+            return View();
+           
         }
     }
 }
