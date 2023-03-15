@@ -1,8 +1,10 @@
 ﻿@using BlogTutorial.ViewModel;
 @{
     Layout = null;
+    var myUrl = Context.Request.Query["ReturnUrl"];
 }
 @model LoginViewModel
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,7 +56,7 @@
                                         </div>  
                                         <br>
                                     </div>
-                                    <form class="user" asp-action="Login" asp-controller="Admin" method="post">
+                                    <form class="user" asp-action="Login" asp-controller="Admin" asp-route-ReturnUrl="@myUrl" method="post">
                                         <div class="form-group">
                                             <input  class="form-control form-control-user" asp-for=Username placeholder="Enter Username...">
                                         </div>

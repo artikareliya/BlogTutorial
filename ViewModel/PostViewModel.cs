@@ -5,7 +5,9 @@ namespace BlogTutorial.ViewModel
 {
     public class PostViewModel
     {
+        [Required(ErrorMessage ="Please Enter Title")]
         public string Title { get; set; }
+        [Required(ErrorMessage ="Please enter SubTitle")]
         public string SubTital { get; set; }
         public string Content { get; set; }
         public string Date { get; set; }

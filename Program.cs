@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMvc();
+builder.Services.AddSession();
 
 var ConnString = builder.Configuration.GetConnectionString("myConString");
 builder.Services.AddDbContext<AppDbContext>(option => option.UseSqlServer(ConnString));
@@ -15,7 +16,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
+app.UseSession();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseRouting();
